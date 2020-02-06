@@ -7,7 +7,7 @@ import setuptools
 def main():
     setuptools.setup(
         name                 = 'singdown',
-        version              = '2020.02.06.0056',
+        version              = '2020-02-06T0150Z',
         python_requires      = '>=3.6',
         description          = 'plaintext singing syntax inspired by Markdown',
         long_description     = long_description(),

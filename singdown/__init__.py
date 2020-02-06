@@ -46,7 +46,7 @@ import docopt
 import textwrap
 
 name        = 'singdown'
-__version__ = '2020-02-06T0056Z'
+__version__ = '2020-02-06T0150Z'
 
 def singdown_to_xml(options=docopt.docopt(__doc__)):
     if options['--version']:
@@ -59,7 +59,6 @@ def singdown_to_xml(options=docopt.docopt(__doc__)):
     with open(filein) as f: data=f.read().strip().split('---')
     song = [datum.split('\n') for datum in data]
     header = textwrap.dedent(f'''<?xml version="1.0"?>\n<!DOCTYPE SINGING PUBLIC "-//SINGING//DTD SINGING mark up//EN" "Singing.v0_1.dtd" []>\n<SINGING BPM="{bpm}">\n''')
-    print(header)
     footer = textwrap.dedent(f'''</SINGING>''')
     body = ''
     for sentence in song:
