@@ -46,7 +46,7 @@ import docopt
 import textwrap
 
 name        = 'singdown'
-__version__ = '2020-02-06T0150Z'
+__version__ = '2023-04-02T1735Z'
 
 def singdown_to_xml(options=docopt.docopt(__doc__)):
     if options['--version']:
@@ -62,15 +62,16 @@ def singdown_to_xml(options=docopt.docopt(__doc__)):
     footer = textwrap.dedent(f'''</SINGING>''')
     body = ''
     for sentence in song:
-        sentence = [token for token in sentence if token is not '']
-        words = [word for word in sentence[0].split() if word is not '']
-        notes = [note for note in sentence[1].split() if note is not '']
-        beats = [beat for beat in sentence[2].split() if beat is not '']
-        for word, note, beat in zip(words, notes, beats):
-            if word == 'REST' and note == 'REST':
-                body = body+f'<REST BEATS="{beat}"></REST>\n'
-            else:
-                body = body+f'<DURATION BEATS="{beat}"><PITCH NOTE="{note}">{word}</PITCH></DURATION>\n'
+        sentence = [token for token in sentence if token and not token.strip().startswith('#')]
+        if len(sentence) == 3:
+            words = [word for word in sentence[0].split() if word]
+            notes = [note for note in sentence[1].split() if note]
+            beats = [beat for beat in sentence[2].split() if beat]
+            for word, note, beat in zip(words, notes, beats):
+                if word == 'REST' and note == 'REST':
+                    body = body+f'<REST BEATS="{beat}"></REST>\n'
+                else:
+                    body = body+f'<DURATION BEATS="{beat}"><PITCH NOTE="{note}">{word}</PITCH></DURATION>\n'
     out = header+body+footer
     with open(fileout_XML, 'w') as f: f.write(out); f.close()
 

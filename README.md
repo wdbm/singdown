@@ -2,7 +2,7 @@
 
 Singdown is a simple, plaintext singing syntax inspired by [Markdown](https://en.wikipedia.org/wiki/Markdown) which is designed to be written and read easily by humans and machines. It can be converted using included commands to an XML format suitable for input to the [singing mode](http://zeehio.github.io/festival/doc/Singing-Synthesis.html) of the Festival Speech Synthesis System.
 
-Singdown is formed from lines separated by `---`. A line features three tracks, and elements within tracks are separated by whitespace. The first track consists of the words sung. The second track consists of the notes, separated by commas when there are multiple notes corresponding to a word. The third track consists of the beats, which correspond to a global beats-per-minute specification. There is a special line that corresponds to a rest, wherein the first and second tracks both consist of the word "REST" and the third track corresponds to the beat of the rest.
+Singdown is formed from lines separated by `---`. A line features three tracks, and elements within tracks are separated by whitespace. The first track consists of the words sung. The second track consists of the notes, separated by commas when there are multiple notes corresponding to a word. The third track consists of the beats, which correspond to a global beats-per-minute specification. There is a special line that corresponds to a rest, wherein the first and second tracks both consist of the word "REST" and the third track corresponds to the beat of the rest. Lines can be commented out using `#` at the start of lines.
 
 # setup
 
@@ -70,6 +70,12 @@ singdown_to_xml --filein=Daisy.sd --fileout=Daisy.xml --bpm=60
 text2wave -mode singing Daisy.xml -o Daisy.wav
 
 play Daisy.wav
+```
+
+A more convenient version of this for use when composing might be something like the following:
+
+```Bash
+filebase="Daisy"; singdown_to_xml --filein="${filebase}".sd --fileout="${filebase}".xml --bpm=60; text2wave -mode singing "${filebase}".xml -o "${filebase}".wav; play "${filebase}".wav
 ```
 
 Alternative voices can be used:
